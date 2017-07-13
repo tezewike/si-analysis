@@ -23,7 +23,33 @@ public class BaseUnit {
         
         @Override
         public String toString() {
-            return thiis.name;
+            return this.name;
         }
+        
+    public enum Dimensions {
+        LENGTH("Length"),
+        MASS("Mass"),
+        TIME("Time"),
+        CURRENT("Electric Current"),
+        TEMPURATURE("Thermodynamic Temperature"),
+        AMOUNT("Amount of Substance"),
+        LUMINOSITY("Luminous Intensity");
+        
+        
+        
+        private int[] assignArray(int[]... array) {
+            final int ENUM_INDEX = 0;
+            final int VALUE = 1;
+            
+            int[] dimensionArray = new int[ENUM_SIZE];
+            
+            for (int i = 0; i < array.length; i++) {
+                final[array[i][ENUM_INDEX]] = array[i][VALUE];
+            }
+            
+            return dimensionArray;
+        }
+        
+    }
         
 }
