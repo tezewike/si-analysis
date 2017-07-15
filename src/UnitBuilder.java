@@ -2,7 +2,7 @@ public class UnitBuilder {
     private String[] names = null;
     private String[] symbols = null;
     private double magnitude = 1.0;
-    private int[] baseUnitArray = null;
+    private DimensionArray.DerivedMeasures baseUnitArray = null;
     
     public UnitBuilder withNames(String[] names) {
         this.names = names;
@@ -19,7 +19,7 @@ public class UnitBuilder {
         return this;
     }
     
-    public UnitBuilder withUnitArray(int[] unitArray) {
+    public UnitBuilder withUnitArray(DimensionArray.DerivedMeasures unitArray) {
         this.baseUnitArray = unitArray;
         return this;
     }

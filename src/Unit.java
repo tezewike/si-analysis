@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Hashtable;
@@ -10,9 +11,9 @@ public class Unit {
     private final String[] names;
     private final String[] symbols;
     private final double magnitude;
-    private final int[] unitArray;
+    private final DimensionArray.DerivedMeasures unitArray;
     
-    protected Unit(String[] names, String[] symbols, double magnitude, int[] unitArray) {
+    protected Unit(String[] names, String[] symbols, double magnitude, DimensionArray.DerivedMeasures unitArray) {
         this.names = names;
         this.symbols = symbols;
         this.magnitude = magnitude;
@@ -46,11 +47,20 @@ public class Unit {
     }
     
     public int[] getBaseArray() {
-        return unitArray;
+        return unitArray.getBaseArray();
+    }
+    
+    @Override
+    public String toString() {
+    	return getName() + ": " + magnitude + " | " + unitArray;
     }
     
     public static Unit get(String key) {
         return unitTable.get(key);
+    }
+    
+    public static List<Unit> getAll() {
+    	return new ArrayList<Unit>(unitTable.values());
     }
     
     static final class UnitComparator implements Comparator<Unit> {
