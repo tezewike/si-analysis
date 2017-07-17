@@ -5,6 +5,10 @@ public class CalculationObject {
 
     private List<CalculationUnitObject> unitObjects = new ArrayList<CalculationUnitObject>();
     
+    public CalculationObject() {
+        UNIToBJECTS
+    }
+    
     public void addObject(CalculationUnitObject object) {
         unitObjects.add(object);
     }
@@ -21,6 +25,12 @@ public class CalculationObject {
         for (CalculationUnitObject object : unitObjects)
             array.multiple(object.getBaseArray());
         return array.getBaseArray();
+    }
+    
+    public CalculationObject convertToSystem(Unit.System system) {
+        CalculationObject object = new CalculationObject();
+        
+        
     }
     
     @Override
