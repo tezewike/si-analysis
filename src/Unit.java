@@ -69,29 +69,24 @@ public class Unit {
         private final String name;
         private final Unit[] units;
         
-        private System(String name; String... unitKeys) {
-            if (unitKeys.length != DimensionArray.ARRAY_SIZE)
-                throw new Exception("invalid arguments for unit system");
+        private System(String name, String... unitKeys) {
+           // if (unitKeys.length != DimensionArray.ARRAY_SIZE)
+           //     throw new Exception("invalid arguments for unit system");
             
             Unit unit = null;
-            for (int i = 0; i < unitKeys.length) {
+            this.units = new Unit[DimensionArray.ARRAY_SIZE];
+            for (int i = 0; i < unitKeys.length; i++) {
                 unit = Unit.get(unitKeys[i]);
-                if (unit == null)
-                    throw new Exception("invalid key, \"" + unitKeys[i] + "\", for unit system");
-                else 
+               // if (unit == null)
+               //     throw new Exception("invalid key, \"" + unitKeys[i] + "\", for unit system");
+               // else 
                     this.units[i] = unit;
             }
             
             this.name = name;
         }
         
-        public static converTo(System system, douvble magnitude) {
-            for (Unit unit : units)
-                magnitude *= unit.getMagnitude();
-            return magnitude;
-        }
-        
-        public static Unit[] getUnits(System system) {
+        public Unit[] getUnits() {
             return units;
         }
         

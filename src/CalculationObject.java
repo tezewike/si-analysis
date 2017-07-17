@@ -3,14 +3,29 @@ import java.util.List;
 
 public class CalculationObject {
 
-    private List<CalculationUnitObject> unitObjects = new ArrayList<CalculationUnitObject>();
+    private final List<CalculationUnitObject> unitObjects;
+    private Unit.System system;
     
     public CalculationObject() {
-        UNIToBJECTS
+        this.unitObjects = new ArrayList<CalculationUnitObject>();
+    }
+    
+    public CalculationObject(Unit.System system) {
+        this.unitObjects = new ArrayList<CalculationUnitObject>();
+        this.system = system;
+    }
+    
+    public CalculationObject(Unit.System system, CalculationObject object) {
+        this.unitObjects = object.getAllObjects();
+        this.system = system;
     }
     
     public void addObject(CalculationUnitObject object) {
         unitObjects.add(object);
+    }
+    
+    public List<CalculationUnitObject> getAllObjects() {
+    	return unitObjects;
     }
     
     public double getMagnitude() {
@@ -23,14 +38,13 @@ public class CalculationObject {
     public int[] getBaseArray() {
         DimensionArray array = new DimensionArray();
         for (CalculationUnitObject object : unitObjects)
-            array.multiple(object.getBaseArray());
+            array.multiply(object.getBaseArray());
         return array.getBaseArray();
     }
     
     public CalculationObject convertToSystem(Unit.System system) {
-        CalculationObject object = new CalculationObject();
-        
-        
+        CalculationObject object = new CalculationObject(system, this);
+		return object;
     }
     
     @Override
