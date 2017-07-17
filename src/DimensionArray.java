@@ -63,8 +63,11 @@ public class DimensionArray implements Cloneable {
     }
 
     public DimensionArray exponentiate(int exponent) {
-        for (int i = 0; i < ARRAY_SIZE; i++)
-            dimensions[i] *= exponent;
+        if (exponent != 1) {
+            for (int i = 0; i < ARRAY_SIZE; i++)
+                dimensions[i] *= exponent;
+        }
+        
         return this;
     }
 
