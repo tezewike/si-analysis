@@ -26,9 +26,7 @@ public class CalculationUnitObject {
     }
 
     public boolean isSameUnit(CalculationUnitObject calcObj) {
-        if (this.prefix == calcObj.prefix && this.unit == calcObj.unit)
-            return true;
-        return false;
+        return (this.prefix == calcObj.prefix && this.unit == calcObj.unit)
     }
     
     public double getMagnitude() {
