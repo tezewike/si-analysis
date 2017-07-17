@@ -95,6 +95,10 @@ public class Unit {
             return units;
         }
         
+        public static int size() {
+            return System.values().length;
+        }
+        
     }
     
     static final class UnitComparator implements Comparator<Unit> {
