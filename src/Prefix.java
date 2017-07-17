@@ -1,5 +1,7 @@
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Hashtable;
+import java.util.List;
 
 public class Prefix {
 
@@ -31,15 +33,24 @@ public class Prefix {
         return magnitude;
     }
 
+    @Override
+    public String toString() {
+        return getName() + ": " + magnitude;
+    }
+    
     public static Prefix get(String key) {
         return prefixTable.get(key);
+    }
+    
+    public static List<Prefix> getAll() {
+        return new ArrayList<Prefix>(prefixTable.values());
     }
 
     static final class PrefixComparator implements Comparator<Prefix> {
 
         @Override
         public int compare(Prefix lhs, Prefix rhs) {
-            return (int) (rhs.getMagnitude() - lhs.getMagnitude());
+            return Double.compare(rhs.getMagnitude(), lhs.getMagnitude());
         }
 
     }

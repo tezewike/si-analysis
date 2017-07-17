@@ -1,34 +1,27 @@
+import java.util.ArrayList;
+import java.util.List;
 
 public class CalculationObject {
 
-    private Unit unit = null;
-    private Prefix prefix = null;
-    private int exponent = 1;
+    private List<CalculationUnitObject> unitObjects = new ArrayList<CalculationUnitObject>();
     
-    public CalculationObject(Unit unit) {
-        this.unit = unit;
+    public void addObject(CalculationUnitObject object) {
+        unitObjects.add(object);
     }
     
-    public CalculationObject(Unit unit, int exponent) {
-        this.unit = unit;
-        this.exponent = exponent;
-    }
-
-    public CalculationObject(Prefix prefix, Unit unit) {
-        this.prefix = prefix;
-        this.unit = unit;
+    @Override
+    public String toString() {
+        String str = "";
+        for (CalculationUnitObject object : unitObjects)
+            str += object.toString() + " ";
+        return str.substring(0, str.length() - 1);
     }
     
-    public CalculationObject(Prefix prefix, Unit unit, int exponent) {
-        this.prefix = prefix;
-        this.unit = unit;
-        this.exponent = exponent;
-    }
-    
-    public boolean isSameUnit(CalculationObject calcObj) {
-        if (this.prefix == calcObj.prefix && this.unit == calcObj.unit)
-            return true;
-        return false;
+    public String toExtendedString() {
+        String str = "";
+        for (CalculationUnitObject object : unitObjects)
+            str += object.toExtendedString() + " ";
+        return str.substring(0, str.length() - 1);
     }
     
 }

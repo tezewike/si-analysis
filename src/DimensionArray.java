@@ -14,25 +14,24 @@ public class DimensionArray implements Cloneable {
     }
 
     private DimensionArray derive(Measures measure, int exponent) {
-    	dimensions[measure.index()] += exponent;
-    	return this;
+        dimensions[measure.index()] += exponent;
+        return this;
     }
-    
+
     private DimensionArray derive(DerivedMeasures measure) {
-    	return this.multiply(measure.dimenArray());
+        return this.multiply(measure.dimenArray());
     }
-    
+
     private DimensionArray derive(DerivedMeasures measure, int exponent) {
-    	return this.multiply(((DimensionArray) measure.dimenArray()
-    			.clone()).exponentiate(exponent));
+        return this.multiply(((DimensionArray) measure.dimenArray().clone()).exponentiate(exponent));
     }
-    
+
     public DimensionArray multiply(int[] array) {
         for (int i = 0; i < ARRAY_SIZE; i++)
             dimensions[i] += array[i];
         return this;
     }
-    
+
     public DimensionArray multiply(int[] array, int exponent) {
         for (int i = 0; i < ARRAY_SIZE; i++)
             dimensions[i] += array[i] * exponent;
@@ -84,9 +83,9 @@ public class DimensionArray implements Cloneable {
 
     @Override
     protected Object clone() {
-    	return new DimensionArray(dimensions.clone());
+        return new DimensionArray(dimensions.clone());
     }
-    
+
     /**
      * The seven base masures.
      */
@@ -117,12 +116,12 @@ public class DimensionArray implements Cloneable {
         }
 
         public static int size() {
-			return Measures.values().length;
+            return Measures.values().length;
         }
-        
+
         @Override
         public String toString() {
-        	return this.name;
+            return this.name;
         }
 
     }
@@ -168,15 +167,15 @@ public class DimensionArray implements Cloneable {
         /** mag fied */
         MAG_FIELD("Magnetic Field", new DimensionArray().derive(CURRENT).derive(LENGTH, -1)),
         /** flux */
-        MAG_FLUX("Magnetic Flux",new DimensionArray().derive(MAG_FIELD).derive(AREA, -1)),
+        MAG_FLUX("Magnetic Flux", new DimensionArray().derive(MAG_FIELD).derive(AREA, -1)),
         /** potential */
-        POTENTIAL("Electric Potential",new DimensionArray().derive(ENERGY).derive(CHARGE, -1)),
+        POTENTIAL("Electric Potential", new DimensionArray().derive(ENERGY).derive(CHARGE, -1)),
         /** resist */
-        RESIST("Electrical Resistance",new DimensionArray().derive(POTENTIAL).derive(CURRENT, -1)),
+        RESIST("Electrical Resistance", new DimensionArray().derive(POTENTIAL).derive(CURRENT, -1)),
         /** capacitance */
         CAPACITANCE("Capacitance", new DimensionArray().derive(CHARGE).derive(POTENTIAL, -1)),
         /** induct */
-        INDUCT("Inductance",new DimensionArray().derive( ENERGY).derive(CURRENT, -2));
+        INDUCT("Inductance", new DimensionArray().derive(ENERGY).derive(CURRENT, -2));
 
         private final String name;
         private final DimensionArray dimenArray;
@@ -191,14 +190,14 @@ public class DimensionArray implements Cloneable {
         }
 
         public DimensionArray dimenArray() {
-        	return dimenArray;
+            return dimenArray;
         }
-        
+
         @Override
         public String toString() {
             String str = name + ": {";
             int[] array = dimenArray.getBaseArray();
-            
+
             for (int i = 0; i < array.length; i++)
                 str += array[i] + ",";
             str = str.substring(0, str.length() - 1) + "}";
@@ -206,17 +205,17 @@ public class DimensionArray implements Cloneable {
         }
 
         public String getKey() {
-        	return super.toString();
+            return super.toString();
         }
-        
+
         public static DerivedMeasures getEnum(String key) {
-        	for (DerivedMeasures measure : DerivedMeasures.values()) {
-        		if (measure.getKey().equals(key))
-        			return measure;
-        	}
-        	return null;
+            for (DerivedMeasures measure : DerivedMeasures.values()) {
+                if (measure.getKey().equals(key))
+                    return measure;
+            }
+            return null;
         }
-        
+
     }
 
 }
