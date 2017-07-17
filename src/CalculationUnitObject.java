@@ -31,6 +31,21 @@ public class CalculationUnitObject {
         return false;
     }
     
+    public double getMagnitude() {
+        double value = 1.0;
+        
+        if (prefix != null)
+            value *= Math.pow(prefix.getMagnitude(), exponent);
+        if (unit != null)
+            value *= Math.pow(unit.getMagnitude(), exponent);
+        
+        return value;
+    }
+    
+    public int[] getBaseArray() {  
+        return new DimensionArray(unit.getBaseArray()).exponentiate(exponent).getBaseArray();
+    }
+    
     @Override
     public String toString() {
         String str = "";
