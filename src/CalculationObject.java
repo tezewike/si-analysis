@@ -20,7 +20,7 @@ public class CalculationObject {
         DimensionArray array = new DimensionArray();
         for (CalculationUnitObject object : unitObjects)
             array.multiple(object.getBaseArray());
-        return value;
+        return array.getBaseArray();
     }
     
     @Override
