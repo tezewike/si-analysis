@@ -85,7 +85,7 @@ public class DimensionArray implements Cloneable {
     }
 
     @Override
-    protected Object clone() {
+    public Object clone() {
         return new DimensionArray(dimensions.clone());
     }
 
