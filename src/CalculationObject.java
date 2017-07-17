@@ -9,6 +9,20 @@ public class CalculationObject {
         unitObjects.add(object);
     }
     
+    public double getMagnitude() {
+        double value = 1;
+        for (CalculationUnitObject object : unitObjects)
+            value *= object.getMagnitude();
+        return value;
+    }
+    
+    public int[] getBaseArray() {
+        DimensionArray array = new DimensionArray();
+        for (CalculationUnitObject object : unitObjects)
+            array.multiple(object.getBaseArray());
+        return value;
+    }
+    
     @Override
     public String toString() {
         String str = "";
