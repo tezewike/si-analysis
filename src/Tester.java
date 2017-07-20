@@ -13,7 +13,7 @@ public class Tester {
         DataLoader.initializeUnits();
         DataLoader.initializePrefixes();
         
-        CalculationObject obj = new InputParser("c").getCalculationObject();
+        CalculationObject obj = new InputParser("ft").getCalculationObject();
         
         System.out.println(obj.toExtendedString() + " = " + obj.getMagnitude() + " " + obj.output());
         
