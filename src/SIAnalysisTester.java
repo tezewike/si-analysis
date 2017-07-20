@@ -1,5 +1,5 @@
 
-public class Tester {
+public class SIAnalysisTester {
     
     public static void main(String[] args) {
     /*
