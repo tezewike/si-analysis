@@ -64,8 +64,8 @@ public class Unit {
     }
     
     public enum System {
-        INTERNATIONAL_SYSTEM("International System of Units", "m", "kg", "s", "A", "K", "mol", "cd");
-        CENTIMETER_GRAM_SECOND("Centimetre–Gram–Second", "cm", "g", "s", "A", "K", "mol", "cd");
+        INTERNATIONAL_SYSTEM("International System of Units", "m", "kg", "s", "A", "K", "mol", "cd"),
+        CENTIMETER_GRAM_SECOND("Centimeter-Gram-Second", "cm", "g", "s", "A", "K", "mol", "cd");
         
         private final String name;
         private final Unit[] units;
@@ -93,6 +93,11 @@ public class Unit {
         
         public static int size() {
             return System.values().length;
+        }
+        
+        @Override
+        public String toString() {
+        	return name;
         }
         
     }

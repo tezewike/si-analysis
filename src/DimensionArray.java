@@ -19,11 +19,11 @@ public class DimensionArray implements Cloneable {
     }
 
     private DimensionArray derive(DerivedMeasures measure) {
-        return this.multiply(measure.dimenArray());
+        return this.multiply(measure.getDimensions());
     }
 
     private DimensionArray derive(DerivedMeasures measure, int exponent) {
-        return this.multiply(((DimensionArray) measure.dimenArray().clone()).exponentiate(exponent));
+        return this.multiply(((DimensionArray) measure.getDimensions().clone()).exponentiate(exponent));
     }
 
     public DimensionArray multiply(int[] array) {
@@ -90,7 +90,7 @@ public class DimensionArray implements Cloneable {
     }
 
     /**
-     * The seven base masures.
+     * The seven base measures.
      */
     public enum Measures {
         /** Used for distance and position */
@@ -101,7 +101,7 @@ public class DimensionArray implements Cloneable {
         TIME("Time"),
         /** Electric current */
         CURRENT("Electric Current"),
-        /** Tempurature */
+        /** Temperature */
         TEMPERATURE("Thermodynamic Temperature"),
         /** AMount of substance. Example: mol */
         AMOUNT("Amount of Substance"),
@@ -131,7 +131,7 @@ public class DimensionArray implements Cloneable {
 
     /**
      * An Enumeration containing measures that can be derived using the basic
-     * masures
+     * measures
      */
     public enum DerivedMeasures {
         LENGTH("Length", new DimensionArray().derive(Measures.LENGTH, 1)),
@@ -192,8 +192,8 @@ public class DimensionArray implements Cloneable {
             return this.dimenArray.getBaseArray();
         }
 
-        public DimensionArray dimenArray() {
-            return dimenArray;
+        public DimensionArray getDimensions() {
+            return (DimensionArray) dimenArray.clone();
         }
 
         @Override
