@@ -4,24 +4,18 @@ import java.util.List;
 public class CalculationObject {
 
     private final List<CalculationUnitObject> unitObjects;
-    private Unit.System system;
+    private double magnitude = 1.0;
+    private DimensionArray dimensions;
     
     public CalculationObject() {
         this.unitObjects = new ArrayList<CalculationUnitObject>();
-    }
-    
-    public CalculationObject(Unit.System system) {
-        this.unitObjects = new ArrayList<CalculationUnitObject>();
-        this.system = system;
-    }
-    
-    public CalculationObject(Unit.System system, CalculationObject object) {
-        this.unitObjects = object.getAllObjects();
-        this.system = system;
+        this.dimensions = new DimensionArray();
     }
     
     public void addObject(CalculationUnitObject object) {
         unitObjects.add(object);
+        dimensions.multiply(object.getDimensions());
+        magnitude *= object.getMagnitude();
     }
     
     public List<CalculationUnitObject> getAllObjects() {
@@ -29,22 +23,23 @@ public class CalculationObject {
     }
     
     public double getMagnitude() {
-        double value = 1;
-        for (CalculationUnitObject object : unitObjects)
-            value *= object.getMagnitude();
+        return magnitude;
+    }
+    
+    public double getMagnitude(Unit.System system) {
+        double value = magnitude;
+        int[] array = dimensions.getBaseArray();
+        Unit[] units = system.getUnits();
+        
+        for (int i = 0; i < DimensionArray.ARRAY_SIZE; i++) {
+            value /= Math.pow(units[i].getMagnitude(), array[i]);
+        }
+        
         return value;
     }
     
-    public int[] getBaseArray() {
-        DimensionArray array = new DimensionArray();
-        for (CalculationUnitObject object : unitObjects)
-            array.multiply(object.getBaseArray());
-        return array.getBaseArray();
-    }
-    
-    public CalculationObject convertToSystem(Unit.System system) {
-        CalculationObject object = new CalculationObject(system, this);
-		return object;
+    public DimensionArray getDimensions() {
+        return (DimensionArray) dimensions.clone();
     }
     
     @Override
@@ -52,6 +47,18 @@ public class CalculationObject {
         String str = "";
         for (CalculationUnitObject object : unitObjects)
             str += object.toString() + " ";
+        return str.substring(0, str.length() - 1);
+    }
+    
+    public String output() {
+        Unit[] units = Unit.System.INTERNATIONAL_SYSTEM.getUnits();
+        int[] array = dimensions.getBaseArray();
+        
+        String str = "";
+        for (int i = 0; i < units.length; i++) {
+            if (array[i] != 0)
+                str += units[i].getName() + Utils.toSuperscript(array[i]) + " ";
+        }
         return str.substring(0, str.length() - 1);
     }
     

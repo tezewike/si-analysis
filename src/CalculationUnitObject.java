@@ -40,8 +40,8 @@ public class CalculationUnitObject {
         return value;
     }
     
-    public int[] getBaseArray() {  
-        return new DimensionArray(unit.getBaseArray()).exponentiate(exponent).getBaseArray();
+    public DimensionArray getDimensions() {  
+        return new DimensionArray(unit.getBaseArray()).exponentiate(exponent);
     }
     
     @Override
