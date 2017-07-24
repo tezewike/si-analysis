@@ -1,22 +1,22 @@
 
 public class CalculationUnitObject {
 
-    private Unit unit = null;
-    private Prefix prefix = null;
-    private int exponent = 1;
+	private static final int DEFAULT_EXPONENT = 1; 
+	
+    private Unit unit;
+    private Prefix prefix;
+    private int exponent;
 
     public CalculationUnitObject(Unit unit) {
-        this.unit = unit;
+        this(null, unit, DEFAULT_EXPONENT);
     }
 
     public CalculationUnitObject(Unit unit, int exponent) {
-        this.unit = unit;
-        this.exponent = exponent;
+        this(null, unit, exponent);
     }
 
     public CalculationUnitObject(Prefix prefix, Unit unit) {
-        this.prefix = prefix;
-        this.unit = unit;
+        this(prefix, unit, DEFAULT_EXPONENT);
     }
 
     public CalculationUnitObject(Prefix prefix, Unit unit, int exponent) {

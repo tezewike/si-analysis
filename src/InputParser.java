@@ -3,20 +3,17 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class InputParser {
-    
-    private CalculationObject object = null;
-    
-    public InputParser(String input) {
-        this.object = new CalculationObject();
-        parse(input);
-    }
-    
-    private void parse(String input) {
+
+	// TODO 
+	public CalculationObject parse(String number, String input) {
+		
+	}
+	
+    public CalculationObject parseUnits(String input) {
+    	CalculationObject object = new CalculationObject();
         Scanner scanner = new Scanner(input);
         String regex = "[\\w_]+(\\^-?\\d+)?";
         String text;
-        
-        CalculationUnitObject unitObject = null;
         
         while (scanner.hasNext()) {
             text = scanner.next();
@@ -25,16 +22,22 @@ public class InputParser {
             if (matcher.find())
                 text = matcher.group();
             
-            unitObject = findUnit(text);
-            
-            if (unitObject != null)
-                object.addObject(unitObject);
+            findUnit(text, object);
         }
         
         scanner.close();
+        
+        return object;
+    }
+    
+    public double parseScalar(String input) {
+    	return Double.parseDouble(input);
     }
         
-    private CalculationUnitObject findUnit(String text) {
+    private void findUnit(String text, CalculationObject object) {
+    	if (object == null)
+    		return;
+    	
         String[] split = text.split("\\^");
         String unitInput = split[0];
         Integer exponentInput = 1;
@@ -45,27 +48,20 @@ public class InputParser {
             exponentInput = new Integer(split[1]);
         }
         
-        CalculationUnitObject unitObject = null;
-        
         Unit unit = Unit.get(unitInput);
         Prefix prefix = null;
         
         if (unit != null) {
-            unitObject = new CalculationUnitObject(unit, exponentInput);
+            object.addNumeratorUnit(unit, exponentInput);
         } else {
             if (len > 1) {
                 prefix = Prefix.get(unitInput.substring(0, 1));
                 unit = Unit.get(unitInput.substring(1));
                 if (prefix != null && unit != null)
-                    unitObject = new CalculationUnitObject(prefix, unit, exponentInput); 
+                	object.addNumeratorUnit(prefix, unit, exponentInput); 
             }
         }
-        
-        return unitObject;
-    }
 
-    public CalculationObject getCalculationObject() {
-        return object;
     }
     
 }
