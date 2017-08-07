@@ -4,13 +4,18 @@ import java.util.regex.Pattern;
 
 public class InputParser {
 
-	// TODO 
-	public CalculationObject parse(String number, String input) {
-		
+	
+	public CalculationObject parse(String input) {
+        CalculationObject object = new CalculationObject();
+		return parseUnits(String input, CalculationObject object);
 	}
 	
-    public CalculationObject parseUnits(String input) {
-    	CalculationObject object = new CalculationObject();
+	public CalculationObject parse(String number, String input) {
+        CalculationObject object = new CalculationObject(parseScalar(number));
+		return parseUnits(String input, CalculationObject object);
+	}
+	
+    private CalculationObject parseUnits(String input, CalculationObject object) {
         Scanner scanner = new Scanner(input);
         String regex = "[\\w_]+(\\^-?\\d+)?";
         String text;
