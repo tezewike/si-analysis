@@ -13,7 +13,10 @@ public class SIAnalysisTester {
         DataLoader.initializeUnits();
         DataLoader.initializePrefixes();
         
-        CalculationObject obj = new InputParser().parseUnits("ft");
+        DimensionObject obj = new UnitParser().parse("m");
+        DimensionObject obj2 = new UnitParser().parse("ft");
+        
+        obj.divide(obj2);
         
         System.out.println(obj.toExtendedString() + " = " + obj.getMagnitude() + " " + obj.output());
         

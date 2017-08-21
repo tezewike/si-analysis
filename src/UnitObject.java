@@ -1,5 +1,5 @@
 
-public class CalculationUnitObject {
+public class UnitObject {
 
 	private static final int DEFAULT_EXPONENT = 1; 
 	
@@ -7,25 +7,25 @@ public class CalculationUnitObject {
     private Prefix prefix;
     private int exponent;
 
-    public CalculationUnitObject(Unit unit) {
+    public UnitObject(Unit unit) {
         this(null, unit, DEFAULT_EXPONENT);
     }
 
-    public CalculationUnitObject(Unit unit, int exponent) {
+    public UnitObject(Unit unit, int exponent) {
         this(null, unit, exponent);
     }
 
-    public CalculationUnitObject(Prefix prefix, Unit unit) {
+    public UnitObject(Prefix prefix, Unit unit) {
         this(prefix, unit, DEFAULT_EXPONENT);
     }
 
-    public CalculationUnitObject(Prefix prefix, Unit unit, int exponent) {
+    public UnitObject(Prefix prefix, Unit unit, int exponent) {
         this.prefix = prefix;
         this.unit = unit;
         this.exponent = exponent;
     }
 
-    public boolean isSameUnit(CalculationUnitObject calcObj) {
+    public boolean isSameUnit(UnitObject calcObj) {
         return (this.prefix == calcObj.prefix && this.unit == calcObj.unit);
     }
     

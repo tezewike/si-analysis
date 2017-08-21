@@ -2,20 +2,21 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class InputParser {
-
+public class UnitParser {
 	
-	public CalculationObject parse(String input) {
-        CalculationObject object = new CalculationObject();
-		return parseUnits(String input, CalculationObject object);
+	// TODO ~ Throw exception if data isn't loaded
+	
+	public DimensionObject parse(String input) {
+        DimensionObject object = new DimensionObject();
+		return parseUnits(input, object);
 	}
 	
-	public CalculationObject parse(String number, String input) {
-        CalculationObject object = new CalculationObject(parseScalar(number));
-		return parseUnits(String input, CalculationObject object);
+	public DimensionObject parse(String number, String input) {
+        DimensionObject object = new DimensionObject(parseScalar(number));
+		return parseUnits(input, object);
 	}
 	
-    private CalculationObject parseUnits(String input, CalculationObject object) {
+    private DimensionObject parseUnits(String input, DimensionObject object) {
         Scanner scanner = new Scanner(input);
         String regex = "[\\w_]+(\\^-?\\d+)?";
         String text;
@@ -39,7 +40,7 @@ public class InputParser {
     	return Double.parseDouble(input);
     }
         
-    private void findUnit(String text, CalculationObject object) {
+    private void findUnit(String text, DimensionObject object) {
     	if (object == null)
     		return;
     	
