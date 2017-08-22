@@ -1,3 +1,4 @@
+import org.json.simple.JSONObject;
 
 public class UnitObject {
 
@@ -56,6 +57,29 @@ public class UnitObject {
             str += Utils.toSuperscript(exponent);
         
         return str;
+    }
+    
+    public JSONObject toJSONObject() {
+        String name = "";
+        String symbol = "";
+        
+        if (prefix != null) {
+            name += prefix.getName();
+            symbol += prefix.getSymbol();
+        }
+        
+        if (unit != null) {
+            name += unit.getName();
+            symbol += unit.getSymbol();
+        }
+        
+        JSONObject object = new JSONObject();
+        
+        object.put("unit", name);
+        object.put("symbol", symbol);
+        object.put("exp", exponent);
+        
+		return object;
     }
 
     public String toExtendedString() {
