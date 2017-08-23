@@ -25,6 +25,14 @@ public class DimensionObject {
     public DimensionObject(double magnitude) {
     	this();
     	this.numeratorMagnitude = magnitude;
+    	this.finalMagnitude = numeratorMagnitude;
+    }
+    
+    public DimensionObject(double numeratorMagnitude, double denominatorMagnitude) {
+    	this();
+    	this.numeratorMagnitude = numeratorMagnitude;
+    	this.denominatorMagnitude = denominatorMagnitude;
+    	this.finalMagnitude = numeratorMagnitude / denominatorMagnitude;
     }
     
     public void addNumeratorUnit(Unit unit) {
@@ -47,15 +55,15 @@ public class DimensionObject {
     }
     
     public void addDenominatorUnit(Unit unit) {
-    	this.addNumeratorUnit(null, unit, DEFAULT_EXPONENT);
+    	this.addDenominatorUnit(null, unit, DEFAULT_EXPONENT);
     }
     
     public void addDenominatorUnit(Prefix prefix, Unit unit) {
-    	this.addNumeratorUnit(prefix, unit, DEFAULT_EXPONENT);
+    	this.addDenominatorUnit(prefix, unit, DEFAULT_EXPONENT);
     }
     
     public void addDenominatorUnit(Unit unit, int exponent) {
-    	this.addNumeratorUnit(null, unit, exponent);
+    	this.addDenominatorUnit(null, unit, exponent);
     }
     
     public void addDenominatorUnit(Prefix prefix, Unit unit, int exponent) {
@@ -64,7 +72,7 @@ public class DimensionObject {
         dimensions.divide(object.getDimensions());
         finalMagnitude /= object.getMagnitude();
     }
-
+/*
     public void divide(DimensionObject calculator) {
     	this.numeratorObjects.addAll(calculator.getDenominatorObjects());
     	this.denominatorObjects.addAll(calculator.getNumeratorObjects());
@@ -72,7 +80,7 @@ public class DimensionObject {
     	this.denominatorMagnitude *= calculator.getInitialMagnitude();
     	this.dimensions.divide(calculator.getDimensions());	
     }
-    
+ */   
     public List<UnitObject> getNumeratorObjects() {
     	return numeratorObjects;
     }
@@ -81,12 +89,9 @@ public class DimensionObject {
     	return denominatorObjects;
     }
     
+    // TODO ~ Number rounding / formatting, possibly as separate method
     public double getMagnitude() {
         return finalMagnitude;
-    }
-    
-    private double getInitialMagnitude() {
-    	return numeratorMagnitude;
     }
     
     public double getMagnitude(Unit.System system) {
@@ -135,7 +140,6 @@ public class DimensionObject {
     	
     	JSONObject numerator = new JSONObject();
     	JSONObject denominator = new JSONObject();
-    	JSONObject results = new JSONObject();
     	
     	numerator.put("magnitude", numeratorMagnitude);
     	if (!numeratorObjects.isEmpty()) {    		
@@ -150,11 +154,11 @@ public class DimensionObject {
     	input.put("numerator", numerator);
     	input.put("denominator", denominator);
     	
-    	results.put("magnitude", finalMagnitude);
-    	results.put("units", outputToJSON());
+    	output.put("magnitude", finalMagnitude);
+    	output.put("units", outputToJSON());
     	
     	object.put("input", input);
-    	object.put("output", results);
+    	object.put("output", output);
     	
     	return object;
     }

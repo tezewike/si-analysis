@@ -8,15 +8,21 @@ public class UnitParser {
 	
 	public DimensionObject parse(String input) {
         DimensionObject object = new DimensionObject();
-		return parseUnits(input, object);
+		return parseUnits(input, object, true);
 	}
 	
 	public DimensionObject parse(String number, String input) {
         DimensionObject object = new DimensionObject(parseScalar(number));
-		return parseUnits(input, object);
+		return parseUnits(input, object, true);
 	}
 	
-    private DimensionObject parseUnits(String input, DimensionObject object) {
+	public DimensionObject parse(String number1, String input1, String number2, String input2) {
+        DimensionObject object = new DimensionObject(parseScalar(number1), parseScalar(number2));
+		object = parseUnits(input1, object, true);
+		return parseUnits(input2, object, false);
+	}
+	
+    private DimensionObject parseUnits(String input, DimensionObject object, boolean numerator) {
         Scanner scanner = new Scanner(input);
         String regex = "[\\w_]+(\\^-?\\d+)?";
         String text;
@@ -28,7 +34,7 @@ public class UnitParser {
             if (matcher.find())
                 text = matcher.group();
             
-            findUnit(text, object);
+            findUnit(text, object, numerator);
         }
         
         scanner.close();
@@ -40,7 +46,7 @@ public class UnitParser {
     	return Double.parseDouble(input);
     }
         
-    private void findUnit(String text, DimensionObject object) {
+    private void findUnit(String text, DimensionObject object, boolean numerator) {
     	if (object == null)
     		return;
     	
@@ -50,7 +56,7 @@ public class UnitParser {
         
         int len = unitInput.length();
         
-        if (split.length > 1 ) {
+        if (split.length > 1) {
             exponentInput = new Integer(split[1]);
         }
         
@@ -58,13 +64,20 @@ public class UnitParser {
         Prefix prefix = null;
         
         if (unit != null) {
-            object.addNumeratorUnit(unit, exponentInput);
+        	if (numerator)
+        		object.addNumeratorUnit(unit, exponentInput);
+        	else 
+        		object.addDenominatorUnit(unit, exponentInput);
         } else {
             if (len > 1) {
                 prefix = Prefix.get(unitInput.substring(0, 1));
                 unit = Unit.get(unitInput.substring(1));
-                if (prefix != null && unit != null)
-                	object.addNumeratorUnit(prefix, unit, exponentInput); 
+                if (prefix != null && unit != null) {
+                	if (numerator)
+                		object.addNumeratorUnit(prefix, unit, exponentInput); 
+                	else 
+                		object.addDenominatorUnit(prefix, unit, exponentInput);
+                }
             }
         }
 

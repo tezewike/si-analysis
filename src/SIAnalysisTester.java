@@ -13,12 +13,10 @@ public class SIAnalysisTester {
         DataLoader.initializeUnits();
         DataLoader.initializePrefixes();
         
-        DimensionObject obj = new UnitParser().parse("cm^3 kg ms");
-        DimensionObject obj2 = new UnitParser().parse("L m^2");
-        
-  //      obj.divide(obj2);
+        DimensionObject obj = new UnitParser().parse("1", "L", "1", "cm^3");
         
         System.out.println(obj.toJSONObject().toJSONString());
+        System.out.println(obj.toString());
         
     }
     
