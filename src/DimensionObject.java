@@ -6,6 +6,16 @@ import org.json.simple.JSONObject;
 
 public class DimensionObject {
 
+	public static final String MAGNITUDE_KEY = "magnitude";
+	public static final String NUMERATOR_KEY = "numerator";
+	public static final String DENOMINATOR_KEY = "denominator";
+	public static final String INPUT_KEY = "input";
+	public static final String OUTPUT_KEY = "output";
+	public static final String UNIT_ENTRY_KEY = "units";
+	public static final String ENTRY_NAME_KEY = "name";
+	public static final String ENTRY_SYMBOL_KEY = "symbol";
+	public static final String ENTRY_EXPONENT_KEY = "exp";
+	
 	private static final int DEFAULT_EXPONENT = 1; 
 	private static final Unit.System  DEFAULT_SYSTEM = Unit.System.INTERNATIONAL_SYSTEM;
 	
@@ -141,24 +151,24 @@ public class DimensionObject {
     	JSONObject numerator = new JSONObject();
     	JSONObject denominator = new JSONObject();
     	
-    	numerator.put("magnitude", numeratorMagnitude);
+    	numerator.put(MAGNITUDE_KEY, numeratorMagnitude);
     	if (!numeratorObjects.isEmpty()) {    		
-    		numerator.put("units", unitObjectsToJSON(numeratorObjects));
+    		numerator.put(UNIT_ENTRY_KEY, unitObjectsToJSON(numeratorObjects));
     	}
     	
-    	denominator.put("magnitude", denominatorMagnitude);
+    	denominator.put(MAGNITUDE_KEY, denominatorMagnitude);
     	if (!denominatorObjects.isEmpty()) {    		
-    		denominator.put("units", unitObjectsToJSON(denominatorObjects));
+    		denominator.put(UNIT_ENTRY_KEY, unitObjectsToJSON(denominatorObjects));
     	}
     	
-    	input.put("numerator", numerator);
-    	input.put("denominator", denominator);
+    	input.put(NUMERATOR_KEY, numerator);
+    	input.put(DENOMINATOR_KEY, denominator);
     	
-    	output.put("magnitude", finalMagnitude);
-    	output.put("units", outputToJSON());
+    	output.put(MAGNITUDE_KEY, finalMagnitude);
+    	output.put(UNIT_ENTRY_KEY, outputToJSON());
     	
-    	object.put("input", input);
-    	object.put("output", output);
+    	object.put(INPUT_KEY, input);
+    	object.put(OUTPUT_KEY, output);
     	
     	return object;
     }
@@ -183,9 +193,9 @@ public class DimensionObject {
         for (int i = 0; i < units.length; i++) {
             if (array[i] != 0) {
             	object = new JSONObject();
-            	object.put("unit", units[i].getName());
-            	object.put("symbol", units[i].getSymbol());
-            	object.put("exp", array[i]);
+            	object.put(ENTRY_NAME_KEY, units[i].getName());
+            	object.put(ENTRY_SYMBOL_KEY, units[i].getSymbol());
+            	object.put(ENTRY_EXPONENT_KEY, array[i]);
             	outputUnits.add(object);
             }
             

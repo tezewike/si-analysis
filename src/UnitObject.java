@@ -75,9 +75,9 @@ public class UnitObject {
         
         JSONObject object = new JSONObject();
         
-        object.put("unit", name);
-        object.put("symbol", symbol);
-        object.put("exp", exponent);
+        object.put(DimensionObject.ENTRY_NAME_KEY, name);
+        object.put(DimensionObject.ENTRY_SYMBOL_KEY, symbol);
+        object.put(DimensionObject.ENTRY_EXPONENT_KEY, exponent);
         
 		return object;
     }
