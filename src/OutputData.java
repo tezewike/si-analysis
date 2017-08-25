@@ -58,6 +58,7 @@ public class OutputData {
 		for (int i = 0; i < array.size(); i++) {
 			units.add(new DataUnitEntry((JSONObject) array.get(i)));
 		}
+		
 		return units;
 	}
 	

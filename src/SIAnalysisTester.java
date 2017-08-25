@@ -13,11 +13,11 @@ public class SIAnalysisTester {
         DataLoader.initializeUnits();
         DataLoader.initializePrefixes();
         
-        DimensionObject obj = new UnitParser().parse("1", "L", "1", "cm^3");
+        DimensionObject obj = new UnitParser().parse("l", "L", "1", "cm^3");
         OutputData data = new OutputData(obj.toJSONObject());
         
         System.out.println(obj.toJSONObject().toJSONString());
-        System.out.println(data.getNumeratorUnits().get(0).getName());
+        System.out.println(data.getNumeratorMagnitude());
         
     }
     

@@ -21,10 +21,11 @@ public class DimensionObject {
 	
     private final List<UnitObject> numeratorObjects;
     private final List<UnitObject> denominatorObjects;
+    private DimensionArray dimensions;
+    
     private double numeratorMagnitude = 1.0;
     private double denominatorMagnitude = 1.0;
     private double finalMagnitude = 1.0;
-    private DimensionArray dimensions;
     
     public DimensionObject() {
         this.numeratorObjects = new ArrayList<UnitObject>();
@@ -151,15 +152,11 @@ public class DimensionObject {
     	JSONObject numerator = new JSONObject();
     	JSONObject denominator = new JSONObject();
     	
-    	numerator.put(MAGNITUDE_KEY, numeratorMagnitude);
-    	if (!numeratorObjects.isEmpty()) {    		
-    		numerator.put(UNIT_ENTRY_KEY, unitObjectsToJSON(numeratorObjects));
-    	}
+    	numerator.put(MAGNITUDE_KEY, numeratorMagnitude);   		
+    	numerator.put(UNIT_ENTRY_KEY, unitObjectsToJSON(numeratorObjects));
     	
-    	denominator.put(MAGNITUDE_KEY, denominatorMagnitude);
-    	if (!denominatorObjects.isEmpty()) {    		
-    		denominator.put(UNIT_ENTRY_KEY, unitObjectsToJSON(denominatorObjects));
-    	}
+    	denominator.put(MAGNITUDE_KEY, denominatorMagnitude); 		
+   		denominator.put(UNIT_ENTRY_KEY, unitObjectsToJSON(denominatorObjects));
     	
     	input.put(NUMERATOR_KEY, numerator);
     	input.put(DENOMINATOR_KEY, denominator);

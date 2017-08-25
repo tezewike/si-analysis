@@ -9,11 +9,15 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+/**
+ * This class is used to populate data from a .json file for use of the
+ * {@link Unit} and {@link Prefix} classes. 
+ */
 public class DataLoader {
 
-    static InputStream resource = DataLoader.class.getResourceAsStream("unit.json");
-    static BufferedReader reader = new BufferedReader(new InputStreamReader(resource));
-    static JSONObject data;
+    private static InputStream resource = DataLoader.class.getResourceAsStream("unit.json");
+    private static BufferedReader reader = new BufferedReader(new InputStreamReader(resource));
+    private static JSONObject data;
     
     static {
         

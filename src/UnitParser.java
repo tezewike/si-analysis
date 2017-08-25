@@ -4,6 +4,7 @@ import java.util.regex.Pattern;
 
 public class UnitParser {
 	
+	private static final double DEFAULT_MAGNITUDE = 1.0;
 	// TODO ~ Throw exception if data isn't loaded
 	
 	public DimensionObject parse(String input) {
@@ -43,7 +44,11 @@ public class UnitParser {
     }
     
     public double parseScalar(String input) {
-    	return Double.parseDouble(input);
+    	try {
+    		return Double.parseDouble(input);
+    	} catch (Exception e) {
+    		return DEFAULT_MAGNITUDE;
+    	}
     }
         
     private void findUnit(String text, DimensionObject object, boolean numerator) {
