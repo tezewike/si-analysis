@@ -14,8 +14,6 @@ public class App {
 	static double screenHeight = screenSize.getHeight();
 	
 	public static void main(String[] args) {
-	    DataLoader.initializeUnits();
-	    DataLoader.initializePrefixes();
 		new App();
 	}
 

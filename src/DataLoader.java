@@ -12,62 +12,55 @@ import org.json.simple.parser.ParseException;
 /**
  * This class is used to populate data from a .json file for use of the
  * {@link Unit} and {@link Prefix} classes. 
+ * 
+ * @see Unit
+ * @see Prefix
  */
 public class DataLoader {
 
+	// Prevents default public constructor so that an instance cannot be created 
+	private DataLoader() {}
+	
+	// Data is read as an inputstream so that the code still works as a .jar
     private static InputStream resource = DataLoader.class.getResourceAsStream("unit.json");
     private static BufferedReader reader = new BufferedReader(new InputStreamReader(resource));
-    private static JSONObject data;
+    private static JSONObject data = null;
     
     static {
         
         try {
             Class.forName(DataLoader.class.getName());
-        } catch (ClassNotFoundException e1) {
+        } catch (ClassNotFoundException cnfe) {
             // TODO Auto-generated catch block
-            e1.printStackTrace();
+            cnfe.printStackTrace();
         }
         
         JSONParser parser = new JSONParser();
         
         try {
             data = (JSONObject) parser.parse(reader);
-        } catch (IOException e) {
+        } catch (IOException ioe) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (ParseException e) {
+            ioe.printStackTrace();
+        } catch (ParseException pe) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+            pe.printStackTrace();
         }
     }
     
-    /*
-    public static void initializeDimensions() {
-        JSONArray dimensions = (JSONArray) data.get("dimensions");
-        
-        Iterator<JSONObject> iterator = dimensions.iterator();
-        JSONObject currentObject;
-        
-        String name;
-        int mass, length, time, current, temp;
-        
-        while (iterator.hasNext()) {
-            currentObject = iterator.next();
-            
-            name = (String) currentObject.get("dimen");
-            
-            mass = tryValue(currentObject, "mass");
-            length = tryValue(currentObject, "length");
-            time = tryValue(currentObject, "time");
-            current = tryValue(currentObject, "current");
-            temp = tryValue(currentObject, "temp");
-            
-            new Dimension(name, mass, length, time, current, temp);
-        }
+    public static boolean isLoaded() {
+    	return data != null;
     }
-    */
     
-    public static void initializePrefixes() {
+    public static void reload() {
+    	Unit.clearUnits();
+    	Prefix.clear();
+    	
+    	initializePrefixes();
+    	initializeUnits();
+    }
+
+    private static void initializePrefixes() {
         JSONArray prefixes = (JSONArray) data.get("prefixes");
         
         Iterator<JSONObject> iterator = prefixes.iterator();
@@ -88,7 +81,7 @@ public class DataLoader {
         }
     }
     
-    public static void initializeUnits() {
+    private static void initializeUnits() {
         JSONArray units = (JSONArray) data.get("units");
         
         Iterator<JSONObject> iterator = units.iterator();
@@ -124,13 +117,4 @@ public class DataLoader {
         return arr;
     }           
         
-    private static int tryValue(JSONObject object, String key) {
-        try {
-            return ((Long) object.get(key)).intValue();
-        } catch (NullPointerException npe){
-            return 0;
-        }        
-    }
-    
-    
 }

@@ -45,6 +45,10 @@ public class Prefix {
     public static List<Prefix> getAll() {
         return new ArrayList<Prefix>(prefixTable.values());
     }
+    
+    protected static void clear() {
+    	prefixTable.clear();
+    }
 
     static final class PrefixComparator implements Comparator<Prefix> {
 

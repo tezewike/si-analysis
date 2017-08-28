@@ -10,9 +10,7 @@ public class SIAnalysisTester {
             System.out.println(measure);
         System.out.println();
     */
-        DataLoader.initializeUnits();
-        DataLoader.initializePrefixes();
-        
+
         DimensionObject obj = new UnitParser().parse("l", "L", "1", "cm^3");
         OutputData data = new OutputData(obj.toJSONObject());
         
