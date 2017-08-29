@@ -218,6 +218,10 @@ public class DimensionArray implements Cloneable {
             }
             return null;
         }
+        
+        public static int size() {
+            return DerivedMeasures.values().length;
+        }
 
     }
 
