@@ -11,6 +11,8 @@ public class SIAnalysisTester {
         System.out.println();
     */
 
+    	DataLoader.reload();
+    	
         DimensionObject obj = new UnitParser().parse("l", "L", "1", "cm^3");
         OutputData data = new OutputData(obj.toJSONObject());
         

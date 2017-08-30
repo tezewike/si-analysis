@@ -107,10 +107,10 @@ public class DimensionObject {
     
     public double getMagnitude(Unit.System system) {
         double value = this.getMagnitude();
-        int[] array = dimensions.getBaseArray();
+        int[] array = dimensions.toIntegerArray();
         Unit[] units = system.getUnits();
         
-        for (int i = 0; i < DimensionArray.ARRAY_SIZE; i++) {
+        for (int i = 0; i < DimensionArray.ARRAY_LENGTH; i++) {
             value /= Math.pow(units[i].getMagnitude(), array[i]);
         }
         
@@ -131,7 +131,7 @@ public class DimensionObject {
     
     public String output() {
         Unit[] units = Unit.System.INTERNATIONAL_SYSTEM.getUnits();
-        int[] array = dimensions.getBaseArray();
+        int[] array = dimensions.toIntegerArray();
         
         String str = "";
         for (int i = 0; i < units.length; i++) {
@@ -182,7 +182,7 @@ public class DimensionObject {
     
     private JSONArray outputToJSON() {
         Unit[] units = Unit.System.INTERNATIONAL_SYSTEM.getUnits();
-        int[] array = dimensions.getBaseArray();
+        int[] array = dimensions.toIntegerArray();
         
         JSONArray outputUnits = new JSONArray();
         JSONObject object;

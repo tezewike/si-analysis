@@ -116,12 +116,12 @@ public class Unit {
 	}
 
 	/**
-	 * Returns the array representation of the unit.
+	 * Returns the DimensionArray representation of the unit.
 	 * 
-	 * @return the array representation of the units
+	 * @return the DimensionArray representation of the units
 	 */
-	public int[] getBaseArray() {
-		return unitArray.getBaseArray();
+	public DimensionArray getDimensions() {
+		return unitArray.getDimensions();
 	}
 
 	@Override
@@ -193,7 +193,7 @@ public class Unit {
 			this.abbreviation = abbreviation;
 
 			Unit unit = null;
-			this.units = new Unit[DimensionArray.ARRAY_SIZE];
+			this.units = new Unit[DimensionArray.ARRAY_LENGTH];
 			for (int i = 0; i < unitKeys.length; i++) {
 				unit = Unit.get(unitKeys[i]);
 				this.units[i] = unit;

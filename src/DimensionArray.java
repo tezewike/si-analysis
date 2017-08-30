@@ -6,101 +6,168 @@
 public class DimensionArray implements Cloneable {
 
 	/**
-	 * The size of the array of any DimensionArray instance. This quantity is determined by the
+	 * The length of the array of any DimensionArray instance. This quantity is determined by the
 	 * number of base physical quantities found in {@link Measures}.
 	 * 
 	 * @see Measures
 	 */
-    public static int ARRAY_SIZE = Measures.size();
+    public static int ARRAY_LENGTH = Measures.size();
 
     /**
      * Holds the exponent values of each base physical quantity.
      */
-    private int[] dimensions = new int[ARRAY_SIZE];
+    private int[] dimensions = new int[ARRAY_LENGTH];
+    
+    private IllegalArgumentException arrayException = 
+    		new IllegalArgumentException("Array must be of size " + ARRAY_LENGTH);
     
     /**
-     * The default empty public constructor. An instance created from this constructor
-     * defaults to an array if size {@link #ARRAY_SIZE}, all with a zero value. 
+     * The empty public constructor. An instance created from this constructor
+     * defaults to an array of size {@link #ARRAY_LENGTH}, with all values in the index
+     * set to a zero value. 
      */
     public DimensionArray() {}
 
     /**
-     * Creates an instance with values equal to the combined values of all the inputed
-     * integer arrays.
+     * The constructor used to clone a DimensionArray instance.
      * 
-     * @param arrays
+     * @param array the integer array to clone
      */
-    public DimensionArray(int[]... arrays) {
-        for (int i = 0; i < arrays.length; i++)
-            this.multiply(arrays[i]);
+    private DimensionArray(int[] array) {
+    	this.dimensions = array.clone();
     }
 
-    private DimensionArray derive(Measures measure, int exponent) {
-        dimensions[measure.index()] += exponent;
-        return this;
+    /**
+     * Multiples this instance's base physical quantities with the specified array. In practice,
+     * this is merely an addition of the representation arrays (their exponent values).
+     * 
+     * @param array the physical quantity representation to be multiplied
+     * @return this DimensionArray instance
+     * @throws IllegalArgumentException if array is not of the right length
+     */
+    public DimensionArray multiply(int[] array) throws IllegalArgumentException {
+    	if (array.length != ARRAY_LENGTH)
+    		throw arrayException;
+        return this.multiply(array, 1);
     }
 
-    private DimensionArray derive(DerivedMeasures measure) {
-        return this.multiply(measure.getDimensions());
-    }
-
-    private DimensionArray derive(DerivedMeasures measure, int exponent) {
-        return this.multiply(((DimensionArray) measure.getDimensions().clone()).exponentiate(exponent));
-    }
-
-    public DimensionArray multiply(int[] array) {
-        for (int i = 0; i < ARRAY_SIZE; i++)
-            dimensions[i] += array[i];
-        return this;
-    }
-
-    public DimensionArray multiply(int[] array, int exponent) {
-        for (int i = 0; i < ARRAY_SIZE; i++)
+    /**
+     * Multiples this instance's base physical quantities with the specified array. In practice,
+     * this is merely an addition of the representational arrays.
+     * 
+     * @param array the physical quantity representation to be multiplied
+     * @param exponent the number of times the array is to be multiplied
+     * @return this DimensionArray instance
+     * @throws IllegalArgumentException if array is not of the right length
+     */
+    public DimensionArray multiply(int[] array, int exponent) throws IllegalArgumentException {
+    	if (array.length != ARRAY_LENGTH)
+    		throw arrayException;
+    	
+        for (int i = 0; i < ARRAY_LENGTH; i++)
             dimensions[i] += array[i] * exponent;
         return this;
     }
 
+    /**
+     * Multiples this instance's base physical quantities with the specified array.
+     * 
+     * @param dimensionArray the physical quantity representation to be multiplied
+     * @return this DimensionArray instance
+     */
     public DimensionArray multiply(DimensionArray dimensionArray) {
-        return this.multiply(dimensionArray.getBaseArray());
+    	return this.multiply(dimensionArray, 1);
     }
 
+    /**
+     * Multiples this instance's base physical quantities with the specified array.
+     * 
+     * @param dimensionArray the physical quantity representation to be multiplied
+     * @param exponent the number of times the array is to be multiplied
+     * @return this DimensionArray instance
+     */
     public DimensionArray multiply(DimensionArray dimensionArray, int exponent) {
-        return this.multiply(dimensionArray.getBaseArray(), exponent);
-    }
-
-    public DimensionArray divide(int[] array) {
-        for (int i = 0; i < ARRAY_SIZE; i++)
-            dimensions[i] -= array[i];
+        try {
+			return this.multiply(dimensionArray.toIntegerArray(), exponent);
+		} catch (IllegalArgumentException iae) {
+			iae.printStackTrace();
+		}
+        
         return this;
     }
 
+    /**
+     * Divides this instance's base physical quantities with the specified array. In practice,
+     * this is merely an subtraction of the representational arrays.
+     * 
+     * @param array the physical quantity representation to be multiplied
+     * @return this DimensionArray instance
+     * @throws IllegalArgumentException if array is not of the right length
+     */
+    public DimensionArray divide(int[] array) throws IllegalArgumentException {
+    	if (array.length != ARRAY_LENGTH)
+    		throw arrayException;
+        return this.multiply(new DimensionArray(array).reciprocate());
+    }
+
+    /**
+     * Divides this instance's base physical quantities with the specified array.
+     * 
+     * @param dimensionArray the physical quantity representation to be divided
+     * @return this DimensionArray instance
+     */
     public DimensionArray divide(DimensionArray dimensionArray) {
-        return this.divide(dimensionArray.getBaseArray());
+        return this.multiply(dimensionArray.reciprocate());
     }
 
-    public DimensionArray negate() {
-        for (int i = 0; i < ARRAY_SIZE; i++)
-            dimensions[i] *= -1;
-        return this;
+    /**
+     * Applies a negation to this instance's physical quantity representational array. In practice, this is 
+     * merely a multiplication of the entire representational array by the number -1.
+     * 
+     * @return this DimensionArray instance
+     */
+    public DimensionArray reciprocate() {
+        return this.exponentiate(-1);
     }
 
+    /**
+     * Applies an exponentiation to this instance's physical quantity representational array. In practice, this is 
+     * merely a multiplication of the entire representational array by the number specified.
+     * 
+     * @param exponent the number to exponentiate by
+     * @return this DimensionArray object
+     */
     public DimensionArray exponentiate(int exponent) {
         if (exponent != 1) {
-            for (int i = 0; i < ARRAY_SIZE; i++)
+            for (int i = 0; i < ARRAY_LENGTH; i++)
                 dimensions[i] *= exponent;
         }
         
         return this;
     }
 
-    public int[] getBaseArray() {
-        return this.dimensions;
+    /**
+     * Returns the integer array of this instance's physical quantity representational array. Each value represents
+     * the exponent of a physical quantity, who's index is specified as an enum in {@link Measures}.
+     * 
+     * @return the representation integer array of this instance's physical quantities
+     * @see Measures
+     */
+    public int[] toIntegerArray() {
+        return this.dimensions.clone();
     }
 
+    /**
+     * Returns true if the two array objects are considered equal. The two array objects are considered
+     * equal if their associated integer arrays hold the same values.
+     * 
+     * @param obj the integer array or DimensionArray to test for equality with this instance
+     * @return true if the two arrays are equal; false otherwise
+     */
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof DimensionArray)
-            return dimensions.equals(((DimensionArray) obj).getBaseArray());
+            return dimensions.equals(((DimensionArray) obj).toIntegerArray());
         else if (obj instanceof int[])
             return dimensions.equals((int[]) obj);
         return super.equals(obj);
@@ -210,10 +277,6 @@ public class DimensionArray implements Cloneable {
             this.dimenArray = array;
         }
 
-        public int[] getBaseArray() {
-            return this.dimenArray.getBaseArray();
-        }
-
         public DimensionArray getDimensions() {
             return (DimensionArray) dimenArray.clone();
         }
@@ -221,7 +284,7 @@ public class DimensionArray implements Cloneable {
         @Override
         public String toString() {
             String str = name + ": {";
-            int[] array = dimenArray.getBaseArray();
+            int[] array = dimenArray.toIntegerArray();
 
             for (int i = 0; i < array.length; i++)
                 str += array[i] + ",";
@@ -245,6 +308,25 @@ public class DimensionArray implements Cloneable {
             return DerivedMeasures.values().length;
         }
 
+    }
+
+    /*
+     * DimensionArray derivation methods:
+     * The following few private methods are used to create a DimensionArray for a {@link DerivedMeasures}. The methods utilize
+     * a builder-like design for easier derivations in the code.
+     */
+
+    private DimensionArray derive(Measures measure, int exponent) {
+        dimensions[measure.index()] += exponent;
+        return this;
+    }
+
+    private DimensionArray derive(DerivedMeasures measure) {
+        return this.multiply(measure.getDimensions());
+    }
+
+    private DimensionArray derive(DerivedMeasures measure, int exponent) {
+        return this.multiply(((DimensionArray) measure.getDimensions().clone()).exponentiate(exponent));
     }
 
 }

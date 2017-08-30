@@ -42,7 +42,7 @@ public class UnitObject {
     }
     
     public DimensionArray getDimensions() {  
-        return new DimensionArray(unit.getBaseArray()).exponentiate(exponent);
+        return unit.getDimensions().exponentiate(exponent);
     }
     
     @Override
