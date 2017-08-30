@@ -11,7 +11,7 @@ import java.util.List;
  * This class consists of methods used to obtain information (such as the name
  * or symbol) of a specified unit. All instances of units are prepopulated from
  * the database, and their values are final. If you wish to change the values,
- * keys, names, etc. of the unit, it must be done from the databse itself.
+ * keys, names, etc. of the unit, it must be done from the database itself.
  * 
  * @see DataLoader
  */

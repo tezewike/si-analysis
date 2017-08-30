@@ -1,13 +1,35 @@
+/**
+ * This classes serves as a "wrapper" class for integer arrays that represent the base physical
+ * quantities of measurement in most unit systems. An instance of this class is both mutable 
+ * and cloneable, similar to a standard array object in Java.
+ */
 public class DimensionArray implements Cloneable {
 
+	/**
+	 * The size of the array of any DimensionArray instance. This quantity is determined by the
+	 * number of base physical quantities found in {@link Measures}.
+	 * 
+	 * @see Measures
+	 */
     public static int ARRAY_SIZE = Measures.size();
 
+    /**
+     * Holds the exponent values of each base physical quantity.
+     */
     private int[] dimensions = new int[ARRAY_SIZE];
+    
+    /**
+     * The default empty public constructor. An instance created from this constructor
+     * defaults to an array if size {@link #ARRAY_SIZE}, all with a zero value. 
+     */
+    public DimensionArray() {}
 
-    public DimensionArray() {
-        // Empty constructor
-    }
-
+    /**
+     * Creates an instance with values equal to the combined values of all the inputed
+     * integer arrays.
+     * 
+     * @param arrays
+     */
     public DimensionArray(int[]... arrays) {
         for (int i = 0; i < arrays.length; i++)
             this.multiply(arrays[i]);
