@@ -1,3 +1,4 @@
+package com.tezewike.sianalysis.data;
 // TODO ~ License
 
 /**
@@ -40,8 +41,7 @@ public class DimensionArray implements Cloneable {
 	/**
 	 * The constructor used to clone a DimensionArray instance.
 	 * 
-	 * @param array
-	 *            the integer array to clone
+	 * @param array the integer array to clone
 	 */
 	private DimensionArray(int[] array) {
 		this.dimensions = array.clone();
@@ -52,11 +52,9 @@ public class DimensionArray implements Cloneable {
 	 * In practice, this is merely an addition of the representation arrays (their
 	 * exponent values).
 	 * 
-	 * @param array
-	 *            the physical quantity representation to be multiplied
+	 * @param array the physical quantity representation to be multiplied
 	 * @return this DimensionArray instance
-	 * @throws IllegalArgumentException
-	 *             if array is not of the right length
+	 * @throws IllegalArgumentException if array is not of the right length
 	 */
 	public DimensionArray multiply(int[] array) throws IllegalArgumentException {
 		if (array.length != ARRAY_LENGTH)
@@ -68,13 +66,10 @@ public class DimensionArray implements Cloneable {
 	 * Multiples this instance's base physical quantities with the specified array.
 	 * In practice, this is merely an addition of the representational arrays.
 	 * 
-	 * @param array
-	 *            the physical quantity representation to be multiplied
-	 * @param exponent
-	 *            the number of times the array is to be multiplied
+	 * @param array the physical quantity representation to be multiplied
+	 * @param exponent the number of times the array is to be multiplied
 	 * @return this DimensionArray instance
-	 * @throws IllegalArgumentException
-	 *             if array is not of the right length
+	 * @throws IllegalArgumentException if array is not of the right length
 	 */
 	public DimensionArray multiply(int[] array, int exponent) throws IllegalArgumentException {
 		if (array.length != ARRAY_LENGTH)
@@ -88,8 +83,7 @@ public class DimensionArray implements Cloneable {
 	/**
 	 * Multiples this instance's base physical quantities with the specified array.
 	 * 
-	 * @param dimensionArray
-	 *            the physical quantity representation to be multiplied
+	 * @param dimensionArray the physical quantity representation to be multiplied
 	 * @return this DimensionArray instance
 	 */
 	public DimensionArray multiply(DimensionArray dimensionArray) {
@@ -99,10 +93,8 @@ public class DimensionArray implements Cloneable {
 	/**
 	 * Multiples this instance's base physical quantities with the specified array.
 	 * 
-	 * @param dimensionArray
-	 *            the physical quantity representation to be multiplied
-	 * @param exponent
-	 *            the number of times the array is to be multiplied
+	 * @param dimensionArray the physical quantity representation to be multiplied
+	 * @param exponent the number of times the array is to be multiplied
 	 * @return this DimensionArray instance
 	 */
 	public DimensionArray multiply(DimensionArray dimensionArray, int exponent) {
@@ -119,11 +111,9 @@ public class DimensionArray implements Cloneable {
 	 * Divides this instance's base physical quantities with the specified array. In
 	 * practice, this is merely an subtraction of the representational arrays.
 	 * 
-	 * @param array
-	 *            the physical quantity representation to be multiplied
+	 * @param array the physical quantity representation to be multiplied
 	 * @return this DimensionArray instance
-	 * @throws IllegalArgumentException
-	 *             if array is not of the right length
+	 * @throws IllegalArgumentException if array is not of the right length
 	 */
 	public DimensionArray divide(int[] array) throws IllegalArgumentException {
 		if (array.length != ARRAY_LENGTH)
@@ -300,23 +290,26 @@ public class DimensionArray implements Cloneable {
 		FORCE("Force", new DimensionArray().derive(MASS).derive(ACCEL)),
 		/** Pressure: Mass/(Length Time<sup>2</sup>) or Force/Area */
 		PRESSURE("Pressure", new DimensionArray().derive(FORCE).derive(AREA, -1)),
-		/** Mechanical Energy: (Mass Length<sup>2</sup>)/Time<sup>2</sup> or Force * Length */
+		/**
+		 * Mechanical Energy: (Mass Length<sup>2</sup>)/Time<sup>2</sup> or Force *
+		 * Length
+		 */
 		ENERGY("Mechanical Energy", new DimensionArray().derive(FORCE).derive(LENGTH)),
-		/** power */
+		/** Power: Energy/Time */
 		POWER("Power", new DimensionArray().derive(ENERGY).derive(TIME, -1)),
-		/** charge */
+		/** Electric CHarge: Current/Time */
 		CHARGE("Electric Charge", new DimensionArray().derive(CURRENT).derive(TIME, -1)),
-		/** mag fied */
+		/** Magnetic Field: Current/Length */
 		MAG_FIELD("Magnetic Field", new DimensionArray().derive(CURRENT).derive(LENGTH, -1)),
-		/** flux */
+		/** Magnetic Flux: MagneticField/Area */
 		MAG_FLUX("Magnetic Flux", new DimensionArray().derive(MAG_FIELD).derive(AREA, -1)),
-		/** potential */
+		/** Electric Potential: Energy/Charge */
 		POTENTIAL("Electric Potential", new DimensionArray().derive(ENERGY).derive(CHARGE, -1)),
-		/** resist */
+		/** Electric Resistance: Potential/Current */
 		RESIST("Electrical Resistance", new DimensionArray().derive(POTENTIAL).derive(CURRENT, -1)),
-		/** capacitance */
+		/** Capacitance: Charge/ElectricPotential */
 		CAPACITANCE("Capacitance", new DimensionArray().derive(CHARGE).derive(POTENTIAL, -1)),
-		/** induct */
+		/** Inductance: Energy/Current<sup>2</sup> */
 		INDUCT("Inductance", new DimensionArray().derive(ENERGY).derive(CURRENT, -2));
 
 		private final String name;
@@ -327,10 +320,22 @@ public class DimensionArray implements Cloneable {
 			this.dimenArray = array;
 		}
 
+		/**
+		 * Returns a new {@link DimensionArray} object representing this physical
+		 * quantity.
+		 * 
+		 * @return a DimensionArray object representing this physical quantity
+		 */
 		public DimensionArray getDimensions() {
 			return (DimensionArray) dimenArray.clone();
 		}
 
+		/**
+		 * Returns the name of this enum and the array representation of its associated
+		 * {@link DimensionArray} value.
+		 * 
+		 * @return the String representation of this enum
+		 */
 		@Override
 		public String toString() {
 			String str = name + ": {";
@@ -342,10 +347,22 @@ public class DimensionArray implements Cloneable {
 			return str;
 		}
 
+		/**
+		 * Returns the key of this enum. This value is used in the database to determine
+		 * its {@link DerivedMeasures}.
+		 * 
+		 * @return the key String of this enum
+		 */
 		public String getKey() {
 			return super.toString();
 		}
 
+		/**
+		 * Returns the enum associated with the specified key.
+		 * 
+		 * @param key the key of the enum
+		 * @return the enum associated with the given key String
+		 */
 		public static DerivedMeasures getEnum(String key) {
 			for (DerivedMeasures measure : DerivedMeasures.values()) {
 				if (measure.getKey().equals(key))
@@ -354,6 +371,11 @@ public class DimensionArray implements Cloneable {
 			return null;
 		}
 
+		/**
+		 * Returns the number of elements within this enum.
+		 * 
+		 * @return the number of elements
+		 */
 		public static int size() {
 			return DerivedMeasures.values().length;
 		}

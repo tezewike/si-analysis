@@ -1,3 +1,4 @@
+package com.tezewike.sianalysis.data;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Hashtable;
@@ -107,7 +108,7 @@ public class Prefix {
 	 * Clears the prefix map. Should not be used unless reloading the unit data from
 	 * the {@link DataLoader} class.
 	 * 
-	 * @see DataLoader#reload()
+	 * @see DataLoader#load()
 	 */
 	protected static void clear() {
 		prefixTable.clear();

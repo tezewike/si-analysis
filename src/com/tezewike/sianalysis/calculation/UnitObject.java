@@ -1,4 +1,10 @@
+package com.tezewike.sianalysis.calculation;
 import org.json.simple.JSONObject;
+
+import com.tezewike.sianalysis.data.DimensionArray;
+import com.tezewike.sianalysis.data.Prefix;
+import com.tezewike.sianalysis.data.Unit;
+import com.tezewike.sianalysis.utils.Utils;
 
 public class UnitObject {
 
@@ -53,13 +59,14 @@ public class UnitObject {
             str += prefix.getSymbol();
         if (unit != null)
             str += unit.getSymbol();
-        if (exponent != 1)
+        if (exponent != DEFAULT_EXPONENT)
             str += Utils.toSuperscript(exponent);
         
         return str;
     }
     
-    public JSONObject toJSONObject() {
+    @SuppressWarnings("unchecked")
+	public JSONObject toJSONObject() {
         String name = "";
         String symbol = "";
         
@@ -90,7 +97,7 @@ public class UnitObject {
         if (unit != null)
             str += unit.getName();
         str += ")";
-        if (exponent != 1)
+        if (exponent != DEFAULT_EXPONENT)
             str += Utils.toSuperscript(exponent);
         
         return str;

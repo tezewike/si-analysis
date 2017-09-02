@@ -1,8 +1,14 @@
+package com.tezewike.sianalysis.calculation;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+
+import com.tezewike.sianalysis.data.DimensionArray;
+import com.tezewike.sianalysis.data.Prefix;
+import com.tezewike.sianalysis.data.Unit;
+import com.tezewike.sianalysis.utils.Utils;
 
 public class DimensionObject {
 
@@ -83,15 +89,7 @@ public class DimensionObject {
         dimensions.divide(object.getDimensions());
         finalMagnitude /= object.getMagnitude();
     }
-/*
-    public void divide(DimensionObject calculator) {
-    	this.numeratorObjects.addAll(calculator.getDenominatorObjects());
-    	this.denominatorObjects.addAll(calculator.getNumeratorObjects());
-    	this.finalMagnitude *= calculator.getMagnitude();
-    	this.denominatorMagnitude *= calculator.getInitialMagnitude();
-    	this.dimensions.divide(calculator.getDimensions());	
-    }
- */   
+
     public List<UnitObject> getNumeratorObjects() {
     	return numeratorObjects;
     }
@@ -102,7 +100,7 @@ public class DimensionObject {
     
     // TODO ~ Number rounding / formatting, possibly as separate method
     public double getMagnitude() {
-        return finalMagnitude;
+    	return Double.parseDouble(String.format("%.6f", finalMagnitude));
     }
     
     public double getMagnitude(Unit.System system) {
@@ -144,7 +142,8 @@ public class DimensionObject {
         return str.substring(0, str.length() - 1);
     }
     
-    public JSONObject toJSONObject() {
+    @SuppressWarnings("unchecked")
+	public JSONObject toJSONObject() {
     	JSONObject object = new JSONObject();
     	JSONObject input = new JSONObject();
     	JSONObject output = new JSONObject();
@@ -161,7 +160,7 @@ public class DimensionObject {
     	input.put(NUMERATOR_KEY, numerator);
     	input.put(DENOMINATOR_KEY, denominator);
     	
-    	output.put(MAGNITUDE_KEY, finalMagnitude);
+    	output.put(MAGNITUDE_KEY, getMagnitude());
     	output.put(UNIT_ENTRY_KEY, outputToJSON());
     	
     	object.put(INPUT_KEY, input);
@@ -170,7 +169,8 @@ public class DimensionObject {
     	return object;
     }
     
-    private JSONArray unitObjectsToJSON(List<UnitObject> list) {
+    @SuppressWarnings("unchecked")
+	private JSONArray unitObjectsToJSON(List<UnitObject> list) {
     	JSONArray units = new JSONArray();
     	
 		for (UnitObject unitObject : list) {
@@ -180,7 +180,8 @@ public class DimensionObject {
     	return units;
     }
     
-    private JSONArray outputToJSON() {
+    @SuppressWarnings("unchecked")
+	private JSONArray outputToJSON() {
         Unit[] units = Unit.System.INTERNATIONAL_SYSTEM.getUnits();
         int[] array = dimensions.toIntegerArray();
         
@@ -199,21 +200,6 @@ public class DimensionObject {
         }
         
         return outputUnits; 
-    }
-    
-    public String toExtendedString() {
-        String str = "";
-        for (UnitObject object : numeratorObjects)
-            str += object.toExtendedString() + " ";
-        if (!denominatorObjects.isEmpty()) {
-        	str += "/ ";
-            for (UnitObject object : denominatorObjects)
-                str += object.toExtendedString() + " ";
-        }
-        
-        if (str.isEmpty())
-        	return str;
-        return str.substring(0, str.length() - 1);
     }
     
 }

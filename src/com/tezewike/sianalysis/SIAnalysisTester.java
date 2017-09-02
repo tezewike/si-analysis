@@ -1,3 +1,8 @@
+package com.tezewike.sianalysis;
+import com.tezewike.sianalysis.calculation.DimensionObject;
+import com.tezewike.sianalysis.data.DataLoader;
+import com.tezewike.sianalysis.io.OutputParser;
+import com.tezewike.sianalysis.io.UnitParser;
 
 public class SIAnalysisTester {
     
@@ -11,10 +16,10 @@ public class SIAnalysisTester {
         System.out.println();
     */
 
-    	DataLoader.reload();
+    	DataLoader.load();
     	
-        DimensionObject obj = new UnitParser().parse("l", "L", "1", "cm^3");
-        OutputData data = new OutputData(obj.toJSONObject());
+        DimensionObject obj = new UnitParser().parse(null, "cm^3", null, "L");
+        OutputParser data = new OutputParser(obj.toJSONObject());
         
         System.out.println(obj.toJSONObject().toJSONString());
         System.out.println(data.getNumeratorMagnitude());

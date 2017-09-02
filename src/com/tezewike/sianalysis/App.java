@@ -1,8 +1,12 @@
+package com.tezewike.sianalysis;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
+
+import com.tezewike.sianalysis.calculation.DimensionObject;
+import com.tezewike.sianalysis.io.UnitParser;
 
 public class App {
 	
@@ -82,7 +86,7 @@ public class App {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				DimensionObject obj = new UnitParser().parse(numeratorField.getText());
-		        String text = obj.toExtendedString() + " = " + obj.getMagnitude() + " " + obj.output();
+		        String text = obj.output() + " = " + obj.getMagnitude() + " " + obj.output();
 		        
 				results.setText(text);
 			}

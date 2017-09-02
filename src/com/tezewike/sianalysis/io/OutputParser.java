@@ -1,3 +1,4 @@
+package com.tezewike.sianalysis.io;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -6,27 +7,29 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-public class OutputData {
+import com.tezewike.sianalysis.calculation.DimensionObject;
+
+public class OutputParser {
 
 	private JSONObject data;
 	private JSONObject input, numerator, denominator, output;
 	
-	public OutputData(String jsonString) {
+	public OutputParser(String jsonString) {
 		try {
 			this.data = (JSONObject) new JSONParser().parse(jsonString);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		this.collect();
+		this.parse();
 	}
 	
-	public OutputData(JSONObject object) {
+	public OutputParser(JSONObject object) {
 		this.data = object;
-		this.collect();
+		this.parse();
 	}
 	
-	private void collect() {
+	private void parse() {
 		if (data == null)
 			throw new NullPointerException();
 		
@@ -39,15 +42,15 @@ public class OutputData {
 	}
 	
 	public double getNumeratorMagnitude() {
-		return (double) numerator.get("magnitude");
+		return (double) numerator.get(DimensionObject.MAGNITUDE_KEY);
 	}
 	
 	public double getDenominatorMagnitude() {
-		return (double) denominator.get("magnitude");
+		return (double) denominator.get(DimensionObject.MAGNITUDE_KEY);
 	}
 	
 	public double getOutputMagnitude() {
-		return (double) output.get("magnitude");
+		return (double) output.get(DimensionObject.MAGNITUDE_KEY);
 	}
 	
 	public List<DataUnitEntry> getNumeratorUnits() {

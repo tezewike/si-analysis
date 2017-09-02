@@ -1,3 +1,4 @@
+package com.tezewike.sianalysis.data;
 
 // TODO ~ License Statement
 
@@ -154,9 +155,9 @@ public class Unit {
 	 * Clears the unit map. Should not be used unless reloading the unit data from
 	 * the {@link DataLoader} class.
 	 * 
-	 * @see DataLoader#reload()
+	 * @see DataLoader#load()
 	 */
-	protected static void clearUnits() {
+	protected static void clear() {
 		unitTable.clear();
 	}
 
@@ -186,7 +187,8 @@ public class Unit {
 		 * 
 		 * @param name the name of the unit system
 		 * @param abbreviation the abbreviation; null otherwise
-		 * @param unitKeys the unit representing each base physical quantity of the unit system
+		 * @param unitKeys the unit representing each base physical quantity of the unit
+		 *            system
 		 */
 		private System(String name, String abbreviation, String... unitKeys) {
 			this.name = name;

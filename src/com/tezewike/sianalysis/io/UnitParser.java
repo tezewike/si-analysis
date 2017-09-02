@@ -1,6 +1,11 @@
+package com.tezewike.sianalysis.io;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import com.tezewike.sianalysis.calculation.DimensionObject;
+import com.tezewike.sianalysis.data.Prefix;
+import com.tezewike.sianalysis.data.Unit;
 
 public class UnitParser {
 	
@@ -43,7 +48,7 @@ public class UnitParser {
         return object;
     }
     
-    public double parseScalar(String input) {
+    private double parseScalar(String input) {
     	try {
     		return Double.parseDouble(input);
     	} catch (Exception e) {
@@ -69,19 +74,15 @@ public class UnitParser {
         Prefix prefix = null;
         
         if (unit != null) {
-        	if (numerator)
-        		object.addNumeratorUnit(unit, exponentInput);
-        	else 
-        		object.addDenominatorUnit(unit, exponentInput);
+        	if (numerator) object.addNumeratorUnit(unit, exponentInput);
+        	else object.addDenominatorUnit(unit, exponentInput);
         } else {
             if (len > 1) {
                 prefix = Prefix.get(unitInput.substring(0, 1));
                 unit = Unit.get(unitInput.substring(1));
                 if (prefix != null && unit != null) {
-                	if (numerator)
-                		object.addNumeratorUnit(prefix, unit, exponentInput); 
-                	else 
-                		object.addDenominatorUnit(prefix, unit, exponentInput);
+                	if (numerator) object.addNumeratorUnit(prefix, unit, exponentInput); 
+                	else object.addDenominatorUnit(prefix, unit, exponentInput);
                 }
             }
         }
